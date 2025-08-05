@@ -8,7 +8,7 @@ exports.register = async (req, res, next) => {
   try {
     // e‑posta kontrolü
     if (await User.findOne({ email: req.body.email })) {
-      return res.status(409).json({
+      return res.status(422).json({
         errors: { email: 'E‑posta daha önce alınmış' }
       });
     }
@@ -18,21 +18,20 @@ exports.register = async (req, res, next) => {
 
     // kullanıcı oluştur
     const user = await User.create({
-      name:     req.body.name,
+      username:     req.body.username,
       email:    req.body.email,
       password: hashed,
       isAdmin:  false
     });
 
     // token üret
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
+    // const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
 
     // cevap
     res.status(201).json({
       _id:   user._id,
-      name:  user.name,
+      username:  user.username,
       email: user.email,
-      token
     });
   } catch (err) {
     next(err);
@@ -43,27 +42,36 @@ exports.login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(401).json({
+      return res.status(422).json({
         errors: { general: 'E‑posta veya parola hatalı' }
       });
     }
 
     const match = await bcrypt.compare(req.body.password, user.password);
     if (!match) {
-      return res.status(401).json({
+      return res.status(422).json({
         errors: { general: 'E‑posta veya parola hatalı' }
       });
     }
 
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '3d' });
 
     res.json({
       _id:   user._id,
-      name:  user.name,
+      username:  user.username,
       email: user.email,
       token
     });
   } catch (err) {
     next(err);
   }
+};
+
+exports.user = async (req, res, next) => {
+  res.json({
+    _id:      req.user._id,
+    username: req.user.username,
+    email:    req.user.email,
+    isAdmin:  req.user.isAdmin
+  });
 };

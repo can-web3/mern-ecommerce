@@ -5,8 +5,12 @@ const categorySchema = new Schema({
   name: {
     type: String,
     required: [true, 'Kategori adı zorunludur'],
-    unique:   true
+    unique: true
   },
+  slug: {
+    type: String,
+    unique: true
+  }
 }, {
   timestamps: true
 });

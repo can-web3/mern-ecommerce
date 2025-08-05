@@ -1,9 +1,9 @@
 const Joi = require('joi');
 
 const schema = Joi.object({
-  name: Joi.string().required().messages({
-    'any.required': 'İsim alanı zorunludur',
-    'string.empty':  'İsim alanı boş bırakılamaz'
+  username: Joi.string().required().messages({
+    'any.required': 'Kullanıcı Adı alanı zorunludur',
+    'string.empty':  'Kullanıcı Adı alanı boş bırakılamaz'
   }),
   email: Joi.string().email().required().messages({
     'any.required': 'E‑posta alanı zorunludur',
@@ -15,6 +15,10 @@ const schema = Joi.object({
     'string.empty':  'Parola alanı boş bırakılamaz',
     'string.min':    'Parola en az 6 karakter olmalıdır'
   }),
+  repassword: Joi.any().valid(Joi.ref('password')).required().messages({
+    'any.only':     'Parolalar eşleşmiyor',
+    'any.required': 'Parola (Tekrar) alanı zorunludur'
+  })
 });
 
 module.exports = (req, res, next) => {
@@ -25,7 +29,7 @@ module.exports = (req, res, next) => {
       const key = d.path[0];
       if (!errors[key]) errors[key] = d.message;
     });
-    return res.status(400).json({ errors });
+    return res.status(422).json({ errors });
   }
   next();
 };

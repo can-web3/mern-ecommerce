@@ -14,7 +14,7 @@ router.use(protect, admin);  // Aşağıdaki tüm rotaları önce koru, sonra ad
 router.get('/',        getCategories);
 router.post('/',       createCategory);
 router.get('/:id',     getCategoryById);
-router.put('/:id',     updateCategory);
+router.patch('/:id',     updateCategory);
 router.delete('/:id',  deleteCategory);
 
 module.exports = router;

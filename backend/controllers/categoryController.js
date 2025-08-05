@@ -1,12 +1,14 @@
 // controllers/categoryController.js
+const { default: slugify } = require('slugify');
 const Category = require('../models/Category');
+const { generateSlug } = require('../utils/slugify');
 
 // @desc    Tüm kategorileri listele
 // @route   GET /api/categories
 // @access  Admin
 exports.getCategories = async (req, res, next) => {
   try {
-    const categories = await Category.find().sort('name');
+    const categories = await Category.find().sort('-createdAt');
     res.json({ categories });
   } catch (err) {
     next(err);
@@ -21,19 +23,21 @@ exports.createCategory = async (req, res, next) => {
     const { name } = req.body;
 
     if (!name) {
-      return res.status(400).json({
+      return res.status(422).json({
         errors: { name: 'Kategori adı zorunludur' }
       });
     }
 
     const exists = await Category.findOne({ name });
     if (exists) {
-      return res.status(409).json({
+      return res.status(422).json({
         errors: { name: 'Bu kategori zaten mevcut' }
       });
     }
 
-    const category = await Category.create({ name });
+    const slug = generateSlug(name)
+
+    const category = await Category.create({ name, slug });
 
     res.status(201).json({
       _id:  category._id,
@@ -88,7 +92,7 @@ exports.updateCategory = async (req, res, next) => {
 
     res.json({
       _id:  category._id,
-      name: category.name
+      name: category.name,
     });
   } catch (err) {
     next(err);
@@ -107,7 +111,7 @@ exports.deleteCategory = async (req, res, next) => {
       });
     }
 
-    await category.remove();
+    await category.deleteOne();
 
     res.json({
       message: 'Kategori silindi'
