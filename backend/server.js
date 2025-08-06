@@ -15,7 +15,7 @@ connectDB();
 
 // 2) Orijin tanımlı CORS ayarları
 app.use(cors({
-  origin: 'http://localhost:5173', // React uygulamanın adresi
+  origin: process.env.BASE_URL || 'http://localhost:5000', // React uygulamanın adresi
   // credentials: true,             // eğer cookie ile auth kullanacaksan uncomment et
 }));
 
