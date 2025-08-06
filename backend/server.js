@@ -15,7 +15,7 @@ connectDB();
 
 // 2) Orijin tanımlı CORS ayarları
 app.use(cors({
-  origin: process.env.BASE_URL || 'http://localhost:5000', // React uygulamanın adresi
+  origin: process.env.BASE_URL || 'https://can-mern-ecommerce.netlify.app/', // React uygulamanın adresi
   // credentials: true,             // eğer cookie ile auth kullanacaksan uncomment et
 }));
 
