@@ -6,14 +6,17 @@ import UserState from './states/UserState.tsx'
 import AuthState from './states/AuthState.tsx'
 import { ToastContainer } from 'react-toastify'
 import CategoryState from './states/CategoryState.tsx'
+import ProductState from './states/ProductState.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <CategoryState>
-    <AuthState>
-      <UserState>
-        <RouterProvider router={router} />
-        <ToastContainer />
-      </UserState>
-    </AuthState>
-  </CategoryState>
+  <ProductState>
+    <CategoryState>
+      <AuthState>
+        <UserState>
+          <RouterProvider router={router} />
+          <ToastContainer />
+        </UserState>
+      </AuthState>
+    </CategoryState>
+  </ProductState>
 )

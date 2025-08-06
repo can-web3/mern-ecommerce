@@ -40,8 +40,8 @@ export default function AdminLayout() {
             </Link>
           </li>
           <li>
-            <Link to="/admin/bloglar" className="block p-2 hover:bg-sky-600 hover:text-white">
-              Bloglar
+            <Link to="/admin/urunler" className="block p-2 hover:bg-sky-600 hover:text-white">
+              Ürünler
             </Link>
           </li>
         </ul>

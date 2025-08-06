@@ -5,6 +5,7 @@ import { faArrowDown, faBars, faSortDown } from '@fortawesome/free-solid-svg-ico
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../contexts/AuthContext";
 import { toast } from "react-toastify";
+import CategoryContext from "../contexts/CategoryContext";
 // import AuthContext from "../contexts/AuthContext";
 // import CategoryContext from "../contexts/CategoryContext";
 
@@ -12,11 +13,11 @@ export default function Navbar() {
     const navigate = useNavigate()
     const { auth, logout } = useContext(AuthContext)
     const [isOpenMenu, setIsOpenMenu] = useState(false)
-    // const { categories, getCategories } = useContext(CategoryContext)
+    const { categories, getCategories } = useContext(CategoryContext)
 
-    // useEffect(() => {
-    //     getCategories()
-    // }, [])
+    useEffect(() => {
+        getCategories()
+    }, [])
 
     const handleLogout = async () => {
         await logout()
@@ -38,7 +39,7 @@ export default function Navbar() {
                             </li>
 
                             <li>
-                                <Link to='/bloglar' className={`nav-link ${isOpenMenu && 'hover:bg-white hover:text-orange-600'}`}>Bloglar</Link>
+                                <Link to='/urunler' className={`nav-link ${isOpenMenu && 'hover:bg-white hover:text-orange-600'}`}>Ürünler</Link>
                             </li>
 
                            <li className="relative group">
@@ -47,22 +48,14 @@ export default function Navbar() {
                                     <FontAwesomeIcon icon={faSortDown} className="mb-1 ml-1" />
                                 </span>
                                 <ul className="lg:absolute lg:top-5 lg:left-0 z-40 hidden group-hover:block bg-white shadow-lg mt-1 w-40">
-                                    {/* { categories?.map(category => (
+                                    { categories?.map(category => (
                                         <li key={category.id} className="cursor-pointer  hover:bg-gray-100">
                                             <Link to={`/kategori/${category.slug}`} className="text-sm px-4 py-2 block">
                                                 {category.name}
                                             </Link>
                                         </li>
-                                    )) } */}
+                                    )) }
                                 </ul>
-                            </li>
-
-                            <li>
-                                <Link to='/' className={`nav-link ${isOpenMenu && 'hover:bg-white hover:text-orange-600'}`}>Hakkımızda</Link>
-                            </li>
-
-                            <li>
-                                <Link to='/' className={`nav-link ${isOpenMenu && 'hover:bg-white hover:text-orange-600'}`}>İletişim</Link>
                             </li>
 
                             { auth ? (

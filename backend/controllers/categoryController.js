@@ -1,5 +1,4 @@
 // controllers/categoryController.js
-const { default: slugify } = require('slugify');
 const Category = require('../models/Category');
 const { generateSlug } = require('../utils/slugify');
 
@@ -68,6 +67,23 @@ exports.getCategoryById = async (req, res, next) => {
   }
 };
 
+exports.getCategoryById = async (req, res, next) => {
+  try {
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      return res.status(404).json({
+        errors: { general: 'Kategori bulunamadı' }
+      });
+    }
+    res.json({
+      _id:  category._id,
+      name: category.name
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 // @desc    Kategoriyi güncelle
 // @route   PUT /api/categories/:id
 // @access  Admin
@@ -88,6 +104,7 @@ exports.updateCategory = async (req, res, next) => {
     }
 
     category.name = name;
+    category.slug = generateSlug(name);
     await category.save();
 
     res.json({

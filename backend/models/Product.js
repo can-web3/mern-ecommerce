@@ -1,5 +1,6 @@
 // models/Product.js
 const { Schema, model } = require('mongoose');
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5000';
 
 const productSchema = new Schema({
   title: {
@@ -8,12 +9,13 @@ const productSchema = new Schema({
   },
   image: {
     type: String,
-    required: [true, 'Resim URL’si zorunludur']
+    required: [
+      function() { return this.isNew; },
+      'Resim URL’si zorunludur'
+    ],
+    get: v => `${BASE_URL}${v}`
   },
-  description: {
-    type: String,
-    default: ''
-  },
+  description: { type: String, default: '' },
   category: {
     type: Schema.Types.ObjectId,
     ref: 'Category',
@@ -33,9 +35,19 @@ const productSchema = new Schema({
     type: Number,
     default: 0,
     min: [0, 'Stok negatif olamaz']
+  },
+  slug: {
+    type: String,
+    required: [true, 'Slug zorunludur']
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON:   { getters: true, virtuals: false },
+  toObject: { getters: true, virtuals: false }
+});
+
+productSchema.virtual('imageUrl').get(function() {
+  return `${BASE_URL}${this.image}`;
 });
 
 module.exports = model('Product', productSchema);

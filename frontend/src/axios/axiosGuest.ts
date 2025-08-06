@@ -31,14 +31,6 @@ axiosGuest.interceptors.response.use(
         case 400:
           toast.error('Geçersiz istek.');
           break;
-        case 401:
-          toast.error('Oturumunuz sonlandı. Lütfen tekrar giriş yapın.');
-          // isterseniz çıkış logic’i tetikleyebilirsiniz
-          // logout();
-          break;
-        case 403:
-          toast.error('Bu işleme yetkiniz yok.');
-          break;
         case 500:
           toast.error('Sunucuda bir hata oluştu.');
           break;

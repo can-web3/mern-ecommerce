@@ -1,14 +1,14 @@
-export default function BlogReducer(state, action) {
+export default function ProductReducer(state, action) {
     switch (action.type) {
-        case "GET_BLOGS":
+        case "GET_PRODUCTS":
             return {
                 ...state,
-                blogs: action.blogs
+                products: action.products
             }
-        case "GET_BLOG":
+        case "GET_PRODUCT":
             return {
                 ...state,
-                blog: action.blog
+                product: action.product
             }
     
         default:

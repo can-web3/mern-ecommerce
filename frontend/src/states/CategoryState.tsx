@@ -5,6 +5,7 @@ import CategoryContext from "../contexts/CategoryContext"
 import type { CategoryInterface } from "../types/CategoryInterface"
 import { slugify } from "../utils/slugify"
 import axiosAdmin from "../axios/axiosAdmin"
+import axiosGuest from "../axios/axiosGuest"
 
 export default function CategoryState({
   children,
@@ -19,7 +20,7 @@ export default function CategoryState({
 
   const getCategories = async () => {
     try {
-      const { data: { categories } } = await axiosAdmin.get('/categories')
+      const { data: { categories } } = await axiosGuest.get('/admin/categories')
       dispatch({ type: "GET_CATEGORIES", categories: categories })
     } catch (err) {
       console.log('err', err)

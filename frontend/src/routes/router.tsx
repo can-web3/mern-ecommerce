@@ -9,6 +9,12 @@ import Dashboard from "../pages/admin/Dashboard";
 import AdminCategories from "../pages/admin/categories/AdminCategories";
 import AdminCreateCategory from "../pages/admin/categories/AdminCreateCategory";
 import AdminEditCategory from "../pages/admin/categories/AdminEditCategory";
+import AdminProducts from "../pages/admin/products/AdminProducts";
+import AdminCreateProduct from "../pages/admin/products/AdminCreateProduct";
+import AdminEditProduct from "../pages/admin/products/AdminEditProduct";
+import ProductDetail from "../pages/ProductDetail";
+import ProductsPage from "../pages/ProductsPage";
+import CategoryProductsPage from "../pages/CategoryProductsPage";
 
 const router = createBrowserRouter([
     {
@@ -16,10 +22,9 @@ const router = createBrowserRouter([
         element: <AppLayout />,
         children: [
             { path: '', element: <Home /> },
-            // { path: 'bloglar', element: <BlogsPage /> },
-            // { path: 'blog/:slug', element: <BlogDetail /> },
-            // { path: 'kategori/:slug', element: <CategoryBlogs /> },
-            // { path: 'favorilerim', element: <CategoryBlogs /> },
+            { path: 'urun/:slug', element: <ProductDetail /> },
+            { path: 'urunler', element: <ProductsPage /> },
+            { path: 'kategori/:slug', element: <CategoryProductsPage /> },
 
             // guest middleware
             { 
@@ -43,9 +48,9 @@ const router = createBrowserRouter([
             { path: 'kategoriler/ekle', element: <AdminCreateCategory /> },
             { path: 'kategoriler/:id/duzenle', element: <AdminEditCategory /> },
 
-            // { path: 'bloglar', element: <AdminBlogs /> },
-            // { path: 'bloglar/ekle', element: <AdminCreateBlog /> },
-            // { path: 'bloglar/:id/duzenle', element: <AdminEditBlog /> },
+            { path: 'urunler', element: <AdminProducts /> },
+            { path: 'urunler/ekle', element: <AdminCreateProduct /> },
+            { path: 'urunler/:id/duzenle', element: <AdminEditProduct /> },
         ]
     }
 ])
