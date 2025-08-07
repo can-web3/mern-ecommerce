@@ -14,10 +14,7 @@ const app = express();
 connectDB();
 
 // 2) Orijin tanımlı CORS ayarları
-app.use(cors({
-  origin: process.env.BASE_URL || 'https://can-mern-ecommerce.netlify.app/', // React uygulamanın adresi
-  // credentials: true,             // eğer cookie ile auth kullanacaksan uncomment et
-}));
+app.use(cors());
 
 // 3) Body-parser
 app.use(express.json());
